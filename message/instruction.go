@@ -6,7 +6,8 @@ import (
 	"github.com/0ptimusGrime/plugwork/capability"
 )
 
-// Instruction defines a generic interface for reprenting device instructions
+// Instruction defines a generic interface for representing device instructions.
+// Specific types of instructions simply need to satisfy this interface.
 type Instruction interface {
 	HasPayload() bool
 	Payload() interface{}

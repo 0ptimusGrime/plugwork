@@ -7,10 +7,8 @@ import (
 	"syscall"
 
 	"github.com/0ptimusGrime/plugwork/device"
-
-	"github.com/0ptimusGrime/plugwork/message"
-
 	"github.com/0ptimusGrime/plugwork/input"
+	"github.com/0ptimusGrime/plugwork/message"
 )
 
 func main() {
@@ -22,7 +20,6 @@ func main() {
 		go reader.Start()
 	}
 
-	//
 	deviceSet := device.Set{}
 	udpVibrator, err := device.NewUDPVibrator(device.UDPVibratorConfig{
 		Endpoint: "127.0.0.1:9999",

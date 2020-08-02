@@ -10,8 +10,7 @@ import (
 	"github.com/0ptimusGrime/plugwork/message"
 )
 
-// Readable defines an interface that anything which can consume control signals should satisfy.
-// It basically just gives you facilities for starting/stopping and getting device instructions
+// Readable defines an interface which anything that can consume control signals should satisfy.
 type Readable interface {
 	Start()
 	Stop()

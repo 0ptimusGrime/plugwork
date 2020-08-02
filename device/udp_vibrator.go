@@ -4,12 +4,11 @@ import (
 	"fmt"
 	"net"
 
-	"github.com/0ptimusGrime/plugwork/message"
-
 	"github.com/0ptimusGrime/plugwork/capability"
+	"github.com/0ptimusGrime/plugwork/message"
 )
 
-// UDPVibrator is a set device. It simply accepts instructions and writes them out to a udp connection
+// UDPVibrator is a test/demo device. It simply accepts instructions and writes them out to a udp connection
 type UDPVibrator struct {
 	config          UDPVibratorConfig
 	conn            net.Conn
@@ -31,12 +30,16 @@ func NewUDPVibrator(conf UDPVibratorConfig) (*UDPVibrator, error) {
 	}
 
 	addr, err := net.ResolveUDPAddr("udp4", conf.Endpoint)
+	if err != nil {
+		return nil, err
+	}
+
 	conn, err := net.DialUDP("udp4", nil, addr)
 	if err != nil {
 		return nil, err
 	}
-	vibrator.conn = conn
 
+	vibrator.conn = conn
 	vibrator.implementations = StringifyImplementationSet(vibrator.Capabilities()...)
 	return vibrator, nil
 }

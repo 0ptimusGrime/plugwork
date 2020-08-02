@@ -6,10 +6,12 @@ import (
 	"github.com/0ptimusGrime/plugwork/message"
 )
 
-// CapabilityImplementation implements an instruction
+// CapabilityImplementation is a function typedef; these functions accept a `message.Instruction`
+// and return whatever the specific device needs.
 type CapabilityImplementation func(message.Instruction) interface{}
 
-// ImplementationSet maps a feature to a function which can implement it for this device
+// ImplementationSet maps a feature to a CapabilityImplementation
+// for a device
 type ImplementationSet map[string]CapabilityImplementation
 
 // Generic provides a generic interface for interacting with devices
@@ -17,14 +19,14 @@ type Generic interface {
 	// Capabilities returns the capabilities supported by this device
 	Capabilities() []string
 
-	// HasCapabilities returns `bool` if a device supports all the specified capabilities
+	// HasCapabilities returns true/false if a device supports all the specified capabilities
 	HasCapabilities(...string) bool
 
 	// CapabilitySubset takes a slice of 'requested' capabilities and returns the subset supported by
 	// this device
 	CapabilitySubset(...string) []string
 
-	// Name just returns the name of the device
+	// Name returns the name of the device
 	Name() string
 
 	// Send an instruction to the device
@@ -34,7 +36,8 @@ type Generic interface {
 	Stop()
 }
 
-// Set is a container for an arbitrary number of devices
+// Set is a container for an arbitrary number of devices, with methods for interacting with
+// them as a collection
 type Set struct {
 	devices []Generic
 }
@@ -56,7 +59,7 @@ func (s *Set) Stop() {
 	}
 }
 
-// Register adds a device to the device `Set`
+// Register adds a device to the `Set`
 func (s *Set) Register(d Generic) {
 	s.devices = append(s.devices, d)
 }
@@ -66,7 +69,8 @@ func (s *Set) Len() int {
 	return len(s.devices)
 }
 
-// StringifyImplementationSet will bind the PrintOp implementatin to every specified capabilitiy
+// StringifyImplementationSet will bind the StringOp implementation to every specified capabilitiy
+// just used for debugging
 func StringifyImplementationSet(capabilities ...string) ImplementationSet {
 	implementations := make(ImplementationSet)
 	for _, cap := range capabilities {
